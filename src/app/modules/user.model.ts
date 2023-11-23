@@ -14,9 +14,9 @@ export const addressSchema = new Schema<Address>({
 
 export const ordersSchema = new Schema<Orders>([
   {
-    productName: { type: String, required: true },
-    price: { type: Number, required: true },
-    quantity: { type: Number, required: true },
+    productName: { type: String },
+    price: { type: Number },
+    quantity: { type: Number },
   },
 ]);
 
@@ -28,11 +28,11 @@ const userSchema = new Schema<User>({
   fullName: fullNameSchema,
   age: { type: Number, required: true },
   email: { type: String, required: true },
-  isActive: Boolean,
-  hobbies: [String, String],
+  isActive: { type: Boolean, required: true },
+  hobbies: [{ type: String }, { type: String }],
   address: addressSchema,
-  orders: ordersSchema,
+  orders: [ordersSchema],
 });
 
 // user model
-const User = model<User>('User', userSchema);
+export const UserModel = model<User>('User', userSchema);
