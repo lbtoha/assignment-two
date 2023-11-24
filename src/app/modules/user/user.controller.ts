@@ -31,7 +31,24 @@ const getAllUsers = async (req: Request, res: Response) => {
   }
 };
 
+const getSingleUser = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const userIdInNumber = parseInt(userId);
+    const result = await UserServices.getSingleUserFromDB(userIdInNumber);
+
+    res.status(200).json({
+      success: result,
+      message: 'User fetched successfully!',
+      data: result,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const StudentController = {
   createUser,
   getAllUsers,
+  getSingleUser,
 };
