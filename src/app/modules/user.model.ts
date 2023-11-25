@@ -50,6 +50,7 @@ const userSchema = new Schema<TUser, UserModel>({
 
 // password hashing middleware
 userSchema.pre('save', async function (next) {
+  // eslint-disable-next-line @typescript-eslint/no-this-alias
   const user = this;
   user.password = await bcrypt.hash(
     user.password,
@@ -57,8 +58,26 @@ userSchema.pre('save', async function (next) {
   );
   next();
 });
-userSchema.post('save', function () {
-  console.log(this, 'pre hook');
+
+userSchema.post('save', function (doc, next) {
+  if (doc) {
+    doc.password = '';
+  }
+  next();
+});
+
+userSchema.post('findOne', function (doc, next) {
+  if (doc) {
+    doc.password = '';
+  }
+  next();
+});
+
+userSchema.post('find', function (users, next) {
+  for (const user of users) {
+    user.password = '';
+  }
+  next();
 });
 
 userSchema.statics.isUserExists = async function (userId: number) {

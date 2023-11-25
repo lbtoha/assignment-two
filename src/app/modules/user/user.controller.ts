@@ -163,12 +163,46 @@ const addProduct = async (req: Request, res: Response) => {
     });
   }
 };
+
 const getOrders = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
     const userIdInNumber = parseInt(userId);
 
     const result = await UserServices.getAllOrdersFromDB(userIdInNumber);
+    console.log('dfdfd', result);
+    if (result === undefined) {
+      res.status(404).json({
+        success: false,
+        message: 'User not found',
+        error: {
+          code: 404,
+          description: 'User not found!',
+        },
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: 'Order fetched successfully!',
+        data: {
+          orders: result,
+        },
+      });
+    }
+  } catch (error: any) {
+    res.status(404).json({
+      success: false,
+      message: error.message || 'User not found',
+    });
+  }
+};
+
+const calculateTotalPrice = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const userIdInNumber = parseInt(userId);
+
+    const result = await UserServices.calculateTotalPriceInDB(userIdInNumber);
     console.log('dfdfd', result);
     if (result === undefined) {
       res.status(404).json({
@@ -204,4 +238,5 @@ export const UserController = {
   deleteUser,
   addProduct,
   getOrders,
+  calculateTotalPrice,
 };
