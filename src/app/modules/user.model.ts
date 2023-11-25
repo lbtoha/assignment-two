@@ -66,16 +66,23 @@ userSchema.post('save', function (doc, next) {
   next();
 });
 
+userSchema.post('findOneAndUpdate', function (doc, next) {
+  if (doc) {
+    doc.password = undefined;
+  }
+  next();
+});
+
 userSchema.post('findOne', function (doc, next) {
   if (doc) {
-    doc.password = '';
+    doc.password = undefined;
   }
   next();
 });
 
 userSchema.post('find', function (users, next) {
   for (const user of users) {
-    user.password = '';
+    user.password = undefined;
   }
   next();
 });

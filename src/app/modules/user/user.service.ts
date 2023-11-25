@@ -28,7 +28,9 @@ const updateUserInDB = async (userId: number, updatedData: TUser) => {
   if (await !User.isUserExists(userId)) {
     throw new Error('User not found!');
   }
-  const user = await User.findOneAndUpdate({ userId: userId }, updatedData);
+  const user = await User.findOneAndUpdate({ userId: userId }, updatedData, {
+    new: true,
+  });
   return user;
 };
 
