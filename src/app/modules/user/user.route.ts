@@ -1,10 +1,14 @@
 import express from 'express';
-import { StudentController } from './user.controller';
+import { UserController } from './user.controller';
 
 const router = express.Router();
 
-router.post('/users', StudentController.createUser);
-router.get('/users', StudentController.getAllUsers);
-router.get('/users/:userId', StudentController.getSingleUser);
+router.post('/users', UserController.createUser);
+router.get('/users', UserController.getAllUsers);
+router.get('/users/:userId', UserController.getSingleUser);
+router.put('/users/:userId', UserController.updateUser);
+router.delete('/users/:userId', UserController.deleteUser);
+router.put('/users/:userId/orders', UserController.addProduct);
+router.get('/users/:userId/orders', UserController.getOrders);
 
 export const UserRoutes = router;
