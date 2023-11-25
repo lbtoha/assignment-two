@@ -94,12 +94,15 @@ const updateUser = async (req: Request, res: Response) => {
     } else {
       res.status(200).json({
         success: true,
-        message: 'User fetched successfully!',
+        message: 'User updated successfully!',
         data: result,
       });
     }
   } catch (error: any) {
-    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
 
@@ -122,11 +125,14 @@ const deleteUser = async (req: Request, res: Response) => {
       res.status(200).json({
         success: true,
         message: 'User deleted successfully!',
-        data: result,
+        data: null,
       });
     }
   } catch (error: any) {
-    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
 
@@ -170,7 +176,6 @@ const getOrders = async (req: Request, res: Response) => {
     const userIdInNumber = parseInt(userId);
 
     const result = await UserServices.getAllOrdersFromDB(userIdInNumber);
-    console.log('dfdfd', result);
     if (result === undefined) {
       res.status(404).json({
         success: false,
@@ -203,7 +208,6 @@ const calculateTotalPrice = async (req: Request, res: Response) => {
     const userIdInNumber = parseInt(userId);
 
     const result = await UserServices.calculateTotalPriceInDB(userIdInNumber);
-    console.log('dfdfd', result);
     if (result === undefined) {
       res.status(404).json({
         success: false,
@@ -216,9 +220,9 @@ const calculateTotalPrice = async (req: Request, res: Response) => {
     } else {
       res.status(200).json({
         success: true,
-        message: 'Order fetched successfully!',
+        message: 'Total price calculated successfully!',
         data: {
-          orders: result,
+          totalPrice: result,
         },
       });
     }
